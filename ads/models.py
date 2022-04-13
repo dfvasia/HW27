@@ -2,6 +2,8 @@ from django.db import models
 
 # Create your models here.
 # Id,name,author,price,description,address,is_published
+
+
 class Advertisement(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False, unique=True)
     author = models.CharField(max_length=200,null=False, blank=False)
@@ -10,6 +12,9 @@ class Advertisement(models.Model):
     address = models.CharField(max_length=1000, null=False, blank=False)
     is_published = models.BooleanField(default=False)
 
+
+class Characteristics(models.Model):
+    name = models.CharField(max_length=100, null=False, blank=False, unique=True)
 
 # id,name
 # 1,Котики
