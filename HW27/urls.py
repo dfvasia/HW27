@@ -21,4 +21,5 @@ from ads.views import AdsView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', AdsView.as_view()),
+    # path('New/', NewDataDbView.as_view()),
 ]
