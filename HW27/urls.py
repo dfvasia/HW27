@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from ads.views import AdsView
+from ads.views import AdsView, MainView, CatView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', AdsView.as_view()),
-    # path('New/', NewDataDbView.as_view()),
+    path('', MainView.as_view()),
+    path('ad/', AdsView.as_view()),
+    path('cat/', CatView.as_view()),
 ]
