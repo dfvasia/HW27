@@ -22,5 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainView.as_view()),
     path('ad/', AdsView.as_view()),
+    path('ad/<int:pk>/', AdsView.as_view()),
     path('cat/', CatView.as_view()),
+    path('cat/<int:pk>/', CatView.as_view()),
 ]

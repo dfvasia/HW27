@@ -13,14 +13,13 @@ class Advertisement(models.Model):
     is_published = models.BooleanField(default=False)
 
 
-
-
 # id,name
 # 1,Котики
 # 2,Песики
 # 3,Книги
 # 4,Растения
 # 5,Мебель и интерьер
+
 
 class Characteristics(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False, unique=True)
