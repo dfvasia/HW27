@@ -1,7 +1,6 @@
 import json
 
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -31,6 +30,7 @@ class AdsView(View):
                     "id": ad.id,
                     "name": ad.name,
                     "author": ad.author,
+                    "price": ad.price,
                     "description": ad.description,
                     "address": ad.address,
                     "is_published": ad.is_published,
@@ -38,13 +38,37 @@ class AdsView(View):
             )
         return JsonResponse(response, status=200, safe=False)
 
+    def post(self, request):
+        ad_data = json.loads(request.body)
 
+        ad = Advertisement()
+        ad.name = ad_data["name"]
+        ad.author = ad_data["author"]
+        ad.price = ad_data["price"]
+        ad.description = ad_data["description"]
+        ad.address = ad_data["address"]
+        ad.is_published = ad_data["is_published"]
+        ad.save()
+
+        return JsonResponse(
+            {
+                "id": ad.pk,
+                "name": ad.name,
+                "author": ad.author,
+                "description": ad.description,
+                "address": ad.address,
+                "is_published": ad.is_published,
+            }
+        )
+
+
+@method_decorator(csrf_exempt, name="dispatch")
 class AdsDetailView(DetailView):
     model = Advertisement
 
     def get(self, request, *args, **kwargs):
         ad = self.get_object()
-        return JsonResponse(ad(
+        return JsonResponse(
             {
                 "id": ad.id,
                 "name": ad.name,
@@ -52,10 +76,10 @@ class AdsDetailView(DetailView):
                 "description": ad.description,
                 "address": ad.address,
                 "is_published": ad.is_published,
-            }
-        ), status=200, safe=False)
+            }, status=200, safe=False)
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class CatView(View):
     def get(self, request):
 
@@ -71,56 +95,30 @@ class CatView(View):
             )
         return JsonResponse(response, status=200, safe=False)
 
-"""
-import json
+    def post(self, request):
+        cat_data = json.loads(request.body)
 
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView
+        cat = Characteristics()
+        cat.name = cat_data["name"]
+        cat.save()
 
-from DP27.models import Vacancy
+        return JsonResponse(
+            {
+                "id": cat.id,
+                "name": cat.name,
+            }, status=200, safe=False
+        )
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class VacancyView(View):
-    def get(self, request):
-        vacancies = Vacancy.objects.all()
-
-        search_text = request.GET.get("text", None)
-        if search_text:
-            vacancies = vacancies.filter(text=search_text)
-
-        response = []
-        for vacancy in vacancies:
-            response.append({
-                "id": vacancy.id,
-                "text": vacancy.text,
-            })
-        return JsonResponse(response, safe=False)
-
-    def post(self, request):
-        vacancy_data = json.loads(request.body)
-
-        vacancy = Vacancy()
-        vacancy.text = vacancy_data["text"]
-
-        vacancy.save()
-        return JsonResponse({
-            "id": vacancy.id,
-            "text": vacancy.text
-        })
-
-
-class VacancyDetailView(DetailView):
-    model = Vacancy
+class CatDetailView(DetailView):
+    model = Characteristics
 
     def get(self, request, *args, **kwargs):
-        vacancy = self.get_object()
-        return JsonResponse({
-                "id": vacancy.id,
-                "text": vacancy.text,
-            })
-"""
+        cat = self.get_object()
+        return JsonResponse(
+            {
+                "id": cat.id,
+                "name": cat.name,
+            }, status=200, safe=False
+        )
