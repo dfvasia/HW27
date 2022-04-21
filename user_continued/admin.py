@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from user_continued.models import LocationUser, ContinuedUser
+
+admin.site.register(LocationUser)
+admin.site.register(ContinuedUser)
