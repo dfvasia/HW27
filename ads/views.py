@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from ads.models import Advertisement, Characteristics
 
@@ -19,12 +19,14 @@ class MainView(View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class AdsView(View):
-    def get(self, request):
-        ads = Advertisement.objects.all()
+class AdsView(ListView):
+    model = Advertisement
+
+    def get(self, request, *args, **kwargs):
+        super().get(request, *args, **kwargs)
 
         response = []
-        for ad in ads:
+        for ad in self.object_list:
             response.append(
                 {
                     "id": ad.id,
