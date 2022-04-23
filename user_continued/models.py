@@ -26,3 +26,5 @@ class ContinuedUser(models.Model):
     class Meta:
         verbose_name = "Доп. поля пользователя"
         verbose_name_plural = "Доп. поля пользователей"
+
+

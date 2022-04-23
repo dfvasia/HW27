@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
@@ -8,6 +9,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
+from HW27 import settings
 from ads.models import Advertisement, Characteristics
 
 
@@ -27,15 +29,25 @@ class AdsView(ListView):
     def get(self, request, *args, **kwargs):
         super().get(request, *args, **kwargs)
 
-        response = []
-        for ad in self.object_list:
-            response.append(
+        paginator = Paginator(self.object_list, settings.TOTAL_ON_PAGE)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        advertisements = []
+        for ad in page_obj:
+            advertisements.append(
                 {
                     "id": ad.id,
                     "name": ad.name,
                     "author": ad.author_id,
                 }
             )
+
+        response = {
+            "items": advertisements,
+            "num_pages": paginator.num_pages,
+            "total": paginator.count,
+        }
         return JsonResponse(response, status=200, safe=False)
 
 
@@ -153,7 +165,7 @@ class AdsImageUpdateView(UpdateView):
             "id":  self.object.id,
             "name":  self.object.name,
             "author_id":  self.object.author_id,
-            "author":  self.object.author,
+            "author":  list(map(str, self.object.author.all())),
             "price":  self.object.price,
             "description":  self.object.description,
             "is_published":  self.object.is_published,

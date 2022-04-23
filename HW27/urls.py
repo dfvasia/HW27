@@ -19,12 +19,14 @@ from django.contrib import admin
 from django.urls import path, include
 
 from ads.views import MainView, CatDetailView, CatCreateView, CatUpdateView, CatDeleteView, CatListView
+from user_continued.views import UserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainView.as_view()),
     path('ad/', include('ads.urls')),
     path('cat/', CatListView.as_view()),
+    path('users/', UserView.as_view()),
     path('cat/create/', CatCreateView.as_view()),
     path('cat/<int:pk>/', CatDetailView.as_view()),
     path('cat/<int:pk>/update/', CatUpdateView.as_view()),
