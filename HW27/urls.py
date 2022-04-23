@@ -18,14 +18,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from ads.views import AdsView, MainView, CatView, AdsDetailView, CatDetailView
+from ads.views import MainView, CatDetailView, CatCreateView, CatUpdateView, CatDeleteView, CatListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainView.as_view()),
     path('ad/', include('ads.urls')),
-    path('cat/', CatView.as_view()),
+    path('cat/', CatListView.as_view()),
+    path('cat/create/', CatCreateView.as_view()),
     path('cat/<int:pk>/', CatDetailView.as_view()),
+    path('cat/<int:pk>/update/', CatUpdateView.as_view()),
+    path('cat/<int:pk>/delete/', CatDeleteView.as_view()),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
