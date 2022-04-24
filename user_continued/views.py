@@ -3,6 +3,7 @@ from msilib.schema import ListView
 
 from django.contrib.auth.models import User, Group, Permission
 from django.core.paginator import Paginator
+from django.db.models import Count, Avg
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
@@ -19,6 +20,8 @@ class UserView(View):
 
     def get(self, request):
         user = User.objects.all()
+
+        self.object_list = self.object_list.order_by("username")
 
         paginator = Paginator(user, settings.TOTAL_ON_PAGE)
         page_number = request.GET.get("page")
@@ -134,3 +137,33 @@ class UserDeleteView(DeleteView):
         super().delete(request, *args, **kwargs)
 
         return JsonResponse({"status": "OK"}, status=200)
+
+
+class UserAdsView(View):
+    def get(self, request):
+        # user_qs = User.objects.annotate(ads=Count("ads"))
+        user_qs = User.objects.annotate(ads=Count('advertisement'))
+
+        paginator = Paginator(user_qs, settings.TOTAL_ON_PAGE)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        users = []
+
+        for user in page_obj:
+            users.append(
+                {
+                    "id": user.id,
+                    "name": user.username,
+                    "total_ads": user.ads,
+                }
+            )
+
+        response = {
+            "items": users,
+            "num_pages": paginator.num_pages,
+            "total": paginator.count,
+            "avg": user_qs.aggregate(avg=Avg("ads"))["avg"],
+        }
+
+        return JsonResponse(response, safe=False)
