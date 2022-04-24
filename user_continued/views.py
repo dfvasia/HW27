@@ -23,6 +23,10 @@ class UserView(View):
         page_obj = paginator.get_page(page_number)
 
         advertisements = []
+
+        get_2 = ContinuedUser.objects.all().filter(user=2).values_list("location_id", flat=True)
+        print(get_2)
+
         for user in page_obj:
             advertisements.append(
                 {
@@ -30,15 +34,15 @@ class UserView(View):
                     "first_name": user.first_name,
                     "last_name": user.last_name,
                     "username": user.username,
-                    # "role": user.groups.,
-                    # "age": user.role,
-                    "location": list(map(str, ContinuedUser.user)),
+                    # "role": list(User.objects.all().filter(pk=user.id).values_list("user_permissions__group__name", flat=True)),
+                    "age": list(ContinuedUser.objects.all().filter(user=user.id).values_list("age", flat=True)),
+                    "location": list(ContinuedUser.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
                 }
             )
 
         response = {
             "items": advertisements,
-            "num_pages": paginator.num_pages,
-            "total": paginator.count,
+            # "num_pages": paginator.num_pages,
+            # "total": paginator.count,
         }
         return JsonResponse(response, status=200, safe=False)
