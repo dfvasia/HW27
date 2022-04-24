@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from ads.views import MainView, CatDetailView, CatCreateView, CatUpdateView, CatDeleteView, CatListView
-from user_continued.views import UserView
+from user_continued.views import UserView, UserDetailView, UserUpdateView, UserDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +27,10 @@ urlpatterns = [
     path('ad/', include('ads.urls')),
     path('cat/', CatListView.as_view()),
     path('users/', UserView.as_view()),
+    path('users/create/', UserView.as_view()),
+    path('users/<int:pk>/', UserDetailView.as_view()),
+    path('users/<int:pk>/update/', UserUpdateView.as_view()),
+    path('users/<int:pk>/delete/', UserDeleteView.as_view()),
     path('cat/create/', CatCreateView.as_view()),
     path('cat/<int:pk>/', CatDetailView.as_view()),
     path('cat/<int:pk>/update/', CatUpdateView.as_view()),
