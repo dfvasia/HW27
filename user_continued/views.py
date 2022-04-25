@@ -1,36 +1,32 @@
 import json
-from msilib.schema import ListView
 
-from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.models import User, Permission
 from django.core.paginator import Paginator
 from django.db.models import Count, Avg
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, ListView
 
 from HW27 import settings
 from user_continued.models import ContinuedUser
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class UserView(View):
+class UserView(ListView):
+    model = User
 
-    def get(self, request):
-        user = User.objects.all()
+    def get(self, request, *args, **kwargs):
+        super().get(request, *args, **kwargs)
 
         self.object_list = self.object_list.order_by("username")
 
-        paginator = Paginator(user, settings.TOTAL_ON_PAGE)
+        paginator = Paginator(self.object_list, settings.TOTAL_ON_PAGE)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
 
         advertisements = []
-
-        get_2 = ContinuedUser.objects.all().filter(user=2).values_list("location_id", flat=True)
-        print(get_2)
 
         for user in page_obj:
             advertisements.append(
@@ -39,7 +35,7 @@ class UserView(View):
                     "first_name": user.first_name,
                     "last_name": user.last_name,
                     "username": user.username,
-                    # "role": list(User.objects.all().filter(pk=user.id).values_list("user_permissions__group__name", flat=True)),
+                    "role": list(map(str, user.groups.all())),
                     "age": list(ContinuedUser.objects.all().filter(user=user.id).values_list("age", flat=True)),
                     "location": list(ContinuedUser.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
                 }
@@ -65,7 +61,7 @@ class UserDetailView(DetailView):
                 "name": user.username,
                 "first_name": user.first_name,
                 "last_name": user.last_name,
-                # "role": list(User.objects.all().filter(pk=user.id).values_list("user_permissions__group__name", flat=True)),
+                "role": list(map(str, user.groups.all())),
                 "age": list(ContinuedUser.objects.all().filter(user=user.id).values_list("age", flat=True)),
                 "location": list(ContinuedUser.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
             }, status=200, safe=False)
@@ -93,7 +89,7 @@ class UserCreateView(CreateView):
                 "name": user.username,
                 "first_name": user.first_name,
                 "last_name": user.last_name,
-                # "role": list(User.objects.all().filter(pk=user.id).values_list("user_permissions__group__name", flat=True)),
+                "role": list(map(str, user.groups.all())),
                 "age": list(ContinuedUser.objects.all().filter(user=user.id).values_list("age", flat=True)),
                 "location": list(ContinuedUser.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
             }, status=200, safe=False)
@@ -122,7 +118,7 @@ class UserUpdateView(UpdateView):
                 "name": user.username,
                 "first_name": user.first_name,
                 "last_name": user.last_name,
-                # "role": list(User.objects.all().filter(pk=user.id).values_list("user_permissions__group__name", flat=True)),
+                "role": list(map(str, user.groups.all())),
                 "age": list(ContinuedUser.objects.all().filter(user=user.id).values_list("age", flat=True)),
                 "location": list(ContinuedUser.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
             }, status=200, safe=False)
