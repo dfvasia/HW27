@@ -72,7 +72,7 @@ class UserDetailView(DetailView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class AdsCreateView(CreateView):
+class UserCreateView(CreateView):
     model = User
     fields = ["username", "first_name", "last_name"]
 
