@@ -154,6 +154,7 @@ class AdsDeleteView(DeleteView):
         return JsonResponse({"status": "OK"}, status=200)
 
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class AdsImageUpdateView(UpdateView):
     model = Advertisement
