@@ -33,3 +33,8 @@ class Advertisement(models.Model):
         verbose_name = "объявление"
         verbose_name_plural = "объявления"
         ordering = ['pk']
+
+    @property
+    def username(self):
+        return self.author.username if self.author else None
+

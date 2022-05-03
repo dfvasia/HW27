@@ -4,6 +4,8 @@ from ads.models import Advertisement, Characteristics
 
 
 class AdvViewSerializer(serializers.ModelSerializer):
+    username = serializers.CharField()
+
     class Meta:
         model = Advertisement
         fields = '__all__'

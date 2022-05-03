@@ -27,4 +27,9 @@ class ContinuedUser(models.Model):
         verbose_name = "Доп. поля пользователя"
         verbose_name_plural = "Доп. поля пользователей"
 
+    @property
+    def local_name(self):
+        return self.location.name if self.location else None
+
+
 

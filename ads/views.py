@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
@@ -12,6 +13,7 @@ from rest_framework.viewsets import ModelViewSet
 from HW27 import settings
 from ads.models import Advertisement, Characteristics
 from ads.serializer import AdvViewSerializer, CatViewSerializer
+from user_continued.models import LocationUser, ContinuedUser
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -28,11 +30,28 @@ class AdvViewSet(ModelViewSet):
     serializer_class = AdvViewSerializer
 
     def list(self, request, *args, **kwargs):
-        adv_data = request.GET.get('cat', None)
+        adv_cat = request.GET.get('cat', None)
+        adv_text = request.GET.get('text', None)
+        adv_local = request.GET.get('location', None)
+        adv_price_to = request.GET.get('price_to', None)
+        adv_price_from = request.GET.get('price_from', None)
 
-        if adv_data:
+        if adv_cat:
             self.queryset = self.queryset.filter(
-                category__in=adv_data
+                category__in=adv_cat
+            )
+        if adv_text:
+            self.queryset = self.queryset.filter(
+                description__icontains=adv_text
+            )
+        if adv_local:
+            self.queryset = self.queryset.filter(
+                author__continueduser__location__in=[i.id for i in LocationUser.objects.all().filter(name__icontains=adv_local)]
+            )
+        if adv_price_to and adv_price_from:
+            self.queryset = self.queryset.filter(
+                price__lte=adv_price_to,
+                price__gte=adv_price_from
             )
         return super().list(request, *args, **kwargs)
 

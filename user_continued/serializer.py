@@ -17,6 +17,8 @@ class LocationSerializer(serializers.ModelSerializer):
 
 
 class ContinuedSerializer(serializers.ModelSerializer):
+    local_name = serializers.CharField()
+
     class Meta:
         model = ContinuedUser
         fields = '__all__'
