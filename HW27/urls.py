@@ -17,19 +17,27 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
 
-from ads.views import MainView, CatDetailView, CatCreateView, CatUpdateView, CatDeleteView, CatListView
+from ads.views import MainView, AdvViewSet, CatViewSet, AdsImageUpdateView
+from user_continued.views import UserViewSet, UserAdsView, ContinuedViewSet, LocationViewSet
+
+router = routers.SimpleRouter()
+router.register('ad', AdvViewSet)
+router.register('cat', CatViewSet)
+router.register('users', UserViewSet)
+router.register('location', LocationViewSet)
+router.register('continued', ContinuedViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainView.as_view()),
-    path('ad/', include('ads.urls')),
-    path('users/', include('user_continued.urls')),
-    path('cat/', CatListView.as_view()),
-    path('cat/create/', CatCreateView.as_view()),
-    path('cat/<int:pk>/', CatDetailView.as_view()),
-    path('cat/<int:pk>/update/', CatUpdateView.as_view()),
-    path('cat/<int:pk>/delete/', CatDeleteView.as_view()),
+    path('ad/<int:pk>/upload_image/', AdsImageUpdateView.as_view()),
+    path('users/<int:pk>/z/', UserAdsView.as_view()),
 ]
+
+urlpatterns += router.urls
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
