@@ -26,23 +26,23 @@ class ContinuedViewSet(ModelViewSet):
 
 
 class UserAdsView(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         user_qs = User.objects.all().annotate(ads=Count('advertisement')).filter(advertisement__is_published__exact=True)
 
         paginator = Paginator(user_qs, settings.TOTAL_ON_PAGE)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
 
-        users = []
+        users = [{"id": user.id, "name": user.username, "total_ads": user.ads} for user in page_obj]
 
-        for user in page_obj:
-            users.append(
-                {
-                    "id": user.id,
-                    "name": user.username,
-                    "total_ads": user.ads,
-                }
-            )
+        # for user in page_obj:
+        #     users.append(
+        #         {
+        #             "id": user.id,
+        #             "name": user.username,
+        #             "total_ads": user.ads,
+        #         }
+        #     )
 
         response = {
             "items": users,
