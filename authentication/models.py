@@ -16,19 +16,19 @@ class LocationUser(models.Model):
 
 
 class User(AbstractUser):
-    age = models.PositiveSmallIntegerField()
+    age = models.PositiveSmallIntegerField(null=True)
     location = models.ForeignKey(LocationUser, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.user
+        return self.username
 
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
-    @property
-    def local_name(self):
-        return self.location.name if self.location else None
+    # @property
+    # def local_name(self):
+    #     return self.location.name if self.location else None
 
 
 

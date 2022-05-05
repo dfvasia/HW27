@@ -2,7 +2,7 @@ import csv
 import json
 import os
 from pathlib import Path
-from django.contrib.auth.hashers import make_password
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -81,7 +81,6 @@ def open_files_3():
     response_g = []
     response_g_t = []
     response_g_u = []
-    response_g_l = []
 
     with open(file, encoding='utf-8') as csv_f:
         csv_reader = csv.DictReader(csv_f)
@@ -98,53 +97,40 @@ def open_files_3():
                     }
 
                 )
-
-
-
             response_u.append(
                 {
                     "pk": rows["id"],
-                    "model": "auth.User",
+                    "model": "authentication.user",
                     "fields": {
                         "first_name": rows["first_name"],
                         "last_name": rows["last_name"],
                         "username": rows["username"],
                         "password": rows["password"],
+                        "age": rows["age"],
+                        "location": rows["location_id"],
+                            }
                     }
-                }
-            )
-            print(response_g_t)
+                )
+            print(response_u)
             print(response_g_t.index(rows["role"]))
 
             response_g_u.append(
                 {
                     "pk": rows["id"],
-                    "model": "auth.user_groups",
+                    "model": "authentication.user_groups",
                     "fields": {
                         "user_id": int(rows["id"]),
                         "group_id": int(response_g_t.index(rows["role"])+1),
                     }
                 }
             )
-            response_g_l.append(
-                {
-                    "pk": rows["id"],
-                    "model": "authentication.User",
-                    "fields": {
-                        "age": int(rows["age"]),
-                        "location_id": int(rows["location_id"]),
-                    }
-                }
-            )
 
     with open(f'{JSON_ROOT_2}\\initial_data.json', 'w', encoding='utf-8') as jsonfile:
         jsonfile.write(json.dumps(response_u, ensure_ascii=False))
-    with open(f'{JSON_ROOT}\\user_g.json', 'w', encoding='utf-8') as jsonfile:
-        jsonfile.write(json.dumps(response_g, ensure_ascii=False))
-    with open(f'{JSON_ROOT}\\user_g_u.json', 'w', encoding='utf-8') as jsonfile:
-        jsonfile.write(json.dumps(response_g_u, ensure_ascii=False))
-    with open(f'{JSON_ROOT}\\user_g_l.json', 'w', encoding='utf-8') as jsonfile:
-        jsonfile.write(json.dumps(response_g_l, ensure_ascii=False))
+    # with open(f'{JSON_ROOT}\\user_g.json', 'w', encoding='utf-8') as jsonfile:
+    #     jsonfile.write(json.dumps(response_g, ensure_ascii=False))
+    # with open(f'{JSON_ROOT}\\user_g_u.json', 'w', encoding='utf-8') as jsonfile:
+    #     jsonfile.write(json.dumps(response_g_u, ensure_ascii=False))
     return f'OK'
 
 
@@ -153,7 +139,7 @@ def save_as(data, json_filename):
         jsonfile.write(json.dumps(data, ensure_ascii=False))
 
 
-# save_as(open_files_0(), f'{JSON_ROOT}\\category.json')
-save_as(open_files_1(), f'{JSON_ROOT}\\ad.json')
+# save_as(open_files_0(), f'{JSON_ROOT}\\category.json' )
+# save_as(open_files_1(), f'{JSON_ROOT}\\ad.json')
 # save_as(open_files_2(), f'{JSON_ROOT}\\location.json')
-# print(open_files_3())
+print(open_files_3())
