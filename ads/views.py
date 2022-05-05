@@ -7,7 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from ads.models import Advertisement, Characteristics
 from ads.serializer import AdvViewSerializer, CatViewSerializer
-from user_continued.models import LocationUser
+from authentication.models import LocationUser
 
 
 @method_decorator(csrf_exempt, name='dispatch')

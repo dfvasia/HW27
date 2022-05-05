@@ -64,7 +64,7 @@ def open_files_2():
             response.append(
                 {
                     "pk": rows["id"],
-                    "model": "user_continued.LocationUser",
+                    "model": "authentication.LocationUser",
                     "fields": {
                         "name": rows["name"],
                         "lat": rows["lat"],
@@ -129,7 +129,7 @@ def open_files_3():
             response_g_l.append(
                 {
                     "pk": rows["id"],
-                    "model": "user_continued.continuedUser",
+                    "model": "authentication.User",
                     "fields": {
                         "age": int(rows["age"]),
                         "location_id": int(rows["location_id"]),

@@ -12,8 +12,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from HW27 import settings
 
-from user_continued.models import ContinuedUser
-from user_continued.serializer import UserSerializer
+from authentication.models import User
+from authentication.serializer import UserSerializer
 
 
 # class UserViewSet(ModelViewSet):
@@ -44,8 +44,8 @@ class UserView(ListView):
                     "last_name": user.last_name,
                     "username": user.username,
                     "role": list(map(str, user.groups.all())),
-                    "age": list(ContinuedUser.objects.all().filter(user=user.id).values_list("age", flat=True)),
-                    "location": list(ContinuedUser.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
+                    "age": list(User.objects.all().filter(user=user.id).values_list("age", flat=True)),
+                    "location": list(User.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
                 }
             )
 
@@ -73,8 +73,8 @@ class UserDetailView(DetailView):
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 "role": list(map(str, user.groups.all())),
-                "age": list(ContinuedUser.objects.all().filter(user=user.id).values_list("age", flat=True)),
-                "location": list(ContinuedUser.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
+                "age": list(User.objects.all().filter(user=user.id).values_list("age", flat=True)),
+                "location": list(User.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
             }, status=200, safe=False)
 
 
@@ -101,8 +101,8 @@ class UserCreateView(CreateView):
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 "role": list(map(str, user.groups.all())),
-                "age": list(ContinuedUser.objects.all().filter(user=user.id).values_list("age", flat=True)),
-                "location": list(ContinuedUser.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
+                "age": list(User.objects.all().filter(user=user.id).values_list("age", flat=True)),
+                "location": list(User.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
             }, status=200, safe=False)
 
 
@@ -130,8 +130,8 @@ class UserUpdateView(UpdateView):
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 "role": list(map(str, user.groups.all())),
-                "age": list(ContinuedUser.objects.all().filter(user=user.id).values_list("age", flat=True)),
-                "location": list(ContinuedUser.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
+                "age": list(User.objects.all().filter(user=user.id).values_list("age", flat=True)),
+                "location": list(User.objects.all().filter(user=user.id).values_list("location__name", flat=True)),
             }, status=200, safe=False)
 
 

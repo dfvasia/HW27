@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from user_continued.models import LocationUser, ContinuedUser
+from authentication.models import LocationUser, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class ContinuedSerializer(serializers.ModelSerializer):
     local_name = serializers.CharField()
 
     class Meta:
-        model = ContinuedUser
+        model = User
         fields = '__all__'
 
 

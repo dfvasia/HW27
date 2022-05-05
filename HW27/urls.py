@@ -20,7 +20,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from ads.views import MainView, AdvViewSet, CatViewSet, AdsImageUpdateView
-from user_continued.views import UserViewSet, UserAdsView, ContinuedViewSet, LocationViewSet
+from authentication.views import UserViewSet, UserAdsView, ContinuedViewSet, LocationViewSet
 
 router = routers.SimpleRouter()
 router.register('ad', AdvViewSet)

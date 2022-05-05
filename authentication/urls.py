@@ -1,7 +1,7 @@
 from django.urls import path
 
 
-from user_continued.views import UserAdsView
+from authentication.views import UserAdsView
 
 urlpatterns = [
 #     path('', UserView.as_view()),

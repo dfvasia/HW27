@@ -6,8 +6,8 @@ from django.views import View
 from rest_framework.viewsets import ModelViewSet
 
 from HW27 import settings
-from user_continued.models import LocationUser, ContinuedUser
-from user_continued.serializer import UserSerializer, LocationSerializer, ContinuedSerializer
+from authentication.models import LocationUser, User
+from authentication.serializer import UserSerializer, LocationSerializer, ContinuedSerializer
 
 
 class UserViewSet(ModelViewSet):
@@ -21,7 +21,7 @@ class LocationViewSet(ModelViewSet):
 
 
 class ContinuedViewSet(ModelViewSet):
-    queryset = ContinuedUser.objects.all()
+    queryset = User.objects.all()
     serializer_class = ContinuedSerializer
 
 
