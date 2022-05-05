@@ -1,24 +1,18 @@
-import json
-
-from django.contrib.auth.models import User
-from django.db.models import Q
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import UpdateView
 from rest_framework.viewsets import ModelViewSet
 
-from HW27 import settings
 from ads.models import Advertisement, Characteristics
 from ads.serializer import AdvViewSerializer, CatViewSerializer
-from user_continued.models import LocationUser, ContinuedUser
+from user_continued.models import LocationUser
 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class MainView(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         return JsonResponse(
             {
                 "status": "ok"
