@@ -16,14 +16,13 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from rest_framework import routers
 
 from ads.views import MainView, AdvViewSet, CatViewSet, AdsImageUpdateView
 from authentication.views import UserViewSet, UserAdsView, ContinuedViewSet, LocationViewSet
 
 router = routers.SimpleRouter()
-router.register('ad', AdvViewSet)
 router.register('cat', CatViewSet)
 router.register('users', UserViewSet)
 router.register('location', LocationViewSet)
@@ -32,8 +31,8 @@ router.register('continued', ContinuedViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ad/', include('ads.urls')),
     path('', MainView.as_view()),
-    path('ad/<int:pk>/upload_image/', AdsImageUpdateView.as_view()),
     path('users/<int:pk>/z/', UserAdsView.as_view()),
 ]
 
