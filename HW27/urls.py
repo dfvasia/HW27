@@ -19,8 +19,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from ads.views import MainView, AdvViewSet, CatViewSet, AdsImageUpdateView
-from authentication.views import UserViewSet, UserAdsView, ContinuedViewSet, LocationViewSet
+from ads.views import MainView, CatViewSet
+from authentication.views import LocationViewSet
 
 router = routers.SimpleRouter()
 router.register('cat', CatViewSet)
