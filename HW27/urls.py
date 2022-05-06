@@ -24,16 +24,14 @@ from authentication.views import UserViewSet, UserAdsView, ContinuedViewSet, Loc
 
 router = routers.SimpleRouter()
 router.register('cat', CatViewSet)
-router.register('users', UserViewSet)
 router.register('location', LocationViewSet)
-router.register('continued', ContinuedViewSet)
 
 
 urlpatterns = [
+    path('', MainView.as_view()),
     path('admin/', admin.site.urls),
     path('ad/', include('ads.urls')),
-    path('', MainView.as_view()),
-    path('users/<int:pk>/z/', UserAdsView.as_view()),
+    path('users/', include('authentication.urls')),
 ]
 
 urlpatterns += router.urls

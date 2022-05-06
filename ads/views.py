@@ -63,17 +63,19 @@ class AdsImageUpdateView(UpdateView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
 
-        self.object.image = request.FILES("image")
+        self.object.image = request.FILES["image"]
         self.object.save()
+        print(self.object.category.name)
 
         return JsonResponse({
             "id":  self.object.id,
             "name":  self.object.name,
             "author_id":  self.object.author_id,
-            "author":  list(map(str, self.object.author.all())),
+            "author":  self.object.author.username,
             "price":  self.object.price,
             "description":  self.object.description,
             "is_published":  self.object.is_published,
-            "category_id":  self.object.category,
+            "category_id":  self.object.category_id,
+            "category":  self.object.category.name,
             "image": self.object.image.url if self.object.image else None,
         }, status=200, safe=False)

@@ -1,13 +1,12 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
+from authentication.views import UserViewSet, UserAdsView
 
-from authentication.views import UserAdsView
+router = routers.SimpleRouter()
+router.register('', UserViewSet)
 
-# urlpatterns = [
-#     path('', UserView.as_view()),
-#     path('create/', UserCreateView.as_view()),
-#     path('<int:pk>/', UserDetailView.as_view()),
-#     path('<int:pk>/update/', UserUpdateView.as_view()),
-#     path('<int:pk>/delete/', UserDeleteView.as_view()),
-#     path('<int:pk>/z/', UserAdsView.as_view()),
-# ]
+urlpatterns = [
+    path('', include(router.urls)),
+    path('<int:pk>/z/', UserAdsView.as_view()),
+]

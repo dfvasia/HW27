@@ -26,8 +26,8 @@ class ContinuedViewSet(ModelViewSet):
 
 
 class UserAdsView(View):
-    def get(self, request):
-        user_qs = User.objects.annotate(ads=Count('advertisement'))
+    def get(self, request, *args, **kwargs):
+        user_qs = User.objects.all().annotate(ads=Count('advertisement')).filter(advertisement__is_published__exact=True)
 
         paginator = Paginator(user_qs, settings.TOTAL_ON_PAGE)
         page_number = request.GET.get("page")
