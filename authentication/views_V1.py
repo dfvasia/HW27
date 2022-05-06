@@ -1,6 +1,6 @@
 import json
 
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import Permission
 from django.core.paginator import Paginator
 from django.db.models import Count, Avg
 from django.http import JsonResponse
@@ -8,12 +8,11 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, ListView
-from rest_framework.viewsets import ModelViewSet
+
 
 from HW27 import settings
 
 from authentication.models import User
-from authentication.serializer import UserSerializer
 
 
 # class UserViewSet(ModelViewSet):

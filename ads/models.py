@@ -1,8 +1,6 @@
 
 from django.db import models
 
-# Create your models here.
-# id, name, author, price, description, address, is_published
 from authentication.models import User
 
 

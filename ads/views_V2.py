@@ -1,6 +1,6 @@
 import json
 
-from django.contrib.auth.models import User
+
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
