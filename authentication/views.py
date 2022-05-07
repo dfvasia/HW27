@@ -7,7 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from HW27 import settings
 from authentication.models import LocationUser, User
-from authentication.serializer import UserSerializer, LocationSerializer, ContinuedSerializer
+from authentication.serializer import UserSerializer, LocationSerializer
 
 
 class UserViewSet(ModelViewSet):
@@ -20,9 +20,9 @@ class LocationViewSet(ModelViewSet):
     serializer_class = LocationSerializer
 
 
-class ContinuedViewSet(ModelViewSet):
+class UserAuthView(ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = ContinuedSerializer
+    serializer_class = UserSerializer
 
 
 class UserAdsView(View):

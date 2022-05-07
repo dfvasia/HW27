@@ -13,13 +13,3 @@ class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = LocationUser
         fields = '__all__'
-
-
-class ContinuedSerializer(serializers.ModelSerializer):
-    local_name = serializers.CharField()
-
-    class Meta:
-        model = User
-        fields = '__all__'
-
-
