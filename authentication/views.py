@@ -3,7 +3,9 @@ from django.core.paginator import Paginator
 from django.db.models import Count, Avg
 from django.http import JsonResponse
 from django.views import View
+
 from rest_framework.viewsets import ModelViewSet
+
 
 from HW27 import settings
 from authentication.models import LocationUser, User
@@ -18,11 +20,6 @@ class UserViewSet(ModelViewSet):
 class LocationViewSet(ModelViewSet):
     queryset = LocationUser.objects.all()
     serializer_class = LocationSerializer
-
-
-class UserAuthView(ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
 
 class UserAdsView(View):

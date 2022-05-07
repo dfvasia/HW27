@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import UpdateView
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import ModelViewSet
 
 from ads.models import Advertisement, Characteristics
@@ -22,6 +23,14 @@ class MainView(View):
 class AdvViewSet(ModelViewSet):
     queryset = Advertisement.objects.all()
     serializer_class = AdvViewSerializer
+
+    permission_classes_by_action = {'create': [IsAuthenticated],
+                                    'list': [AllowAny],
+                                    'retrieve': [IsAuthenticated],
+                                    'update': [IsAuthenticated],
+                                    'perform_update': [IsAuthenticated],
+                                    'destroy': [IsAuthenticated],
+                                    }
 
     def list(self, request, *args, **kwargs):
         adv_cat = request.GET.get('cat', None)
@@ -48,6 +57,12 @@ class AdvViewSet(ModelViewSet):
                 price__gte=adv_price_from
             )
         return super().list(request, *args, **kwargs)
+
+    def get_permissions(self):
+        try:
+            return [permission() for permission in self.permission_classes_by_action[self.action]]
+        except KeyError:
+            return [permission() for permission in self.permission_classes]
 
 
 class CatViewSet(ModelViewSet):
