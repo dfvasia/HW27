@@ -33,6 +33,7 @@ class AdvViewSet(ModelViewSet):
                                     }
 
     def list(self, request, *args, **kwargs):
+
         adv_cat = request.GET.get('cat', None)
         adv_text = request.GET.get('text', None)
         adv_local = request.GET.get('location', None)
@@ -80,7 +81,6 @@ class AdsImageUpdateView(UpdateView):
 
         self.object.image = request.FILES["image"]
         self.object.save()
-        print(self.object.category.name)
 
         return JsonResponse({
             "id":  self.object.id,

@@ -18,7 +18,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from rest_framework_simplejwt.views import TokenObtainPairView
 
 from ads.views import MainView, CatViewSet
 from authentication.views import LocationViewSet
@@ -33,6 +32,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ad/', include('ads.urls')),
     path('users/', include('authentication.urls')),
+    path('selection/', include('selection.urls')),
 ]
 
 urlpatterns += router.urls
