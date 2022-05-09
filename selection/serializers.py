@@ -1,15 +1,29 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import serializers
 
 from ads.models import Advertisement
 from selection.models import Selection
 
 
+class SelectionViewADSSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField()
+    category = serializers.StringRelatedField()
+
+    class Meta:
+        model = Advertisement
+        fields = ['id', 'name', "price", "description", "is_published", "image", "author", "category"]
+
+
 class SelectionViewSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(required=False)
+    ad = SelectionViewADSSerializer(
+        many=True,
+        read_only=True
+    )
 
     class Meta:
         model = Selection
-        fields = '__all__'
+        fields = ['id', 'name', 'create_at', 'owner', 'ad']
 
 
 class SelectionCreateSerializer(serializers.ModelSerializer):
