@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -17,8 +18,8 @@ class LocationUser(models.Model):
 
 class User(AbstractUser):
     email = models.EmailField(blank=False, null=False, unique=True)
-    age = models.PositiveSmallIntegerField(null=True)
-    birth_date = models.DateField()
+    age = models.PositiveSmallIntegerField(null=True, validators=[MinValueValidator(9)])
+    birth_date = models.DateField(null=False, blank=False)
     location = models.ForeignKey(LocationUser, on_delete=models.CASCADE, null=True)
 
     def __str__(self):

@@ -5,12 +5,17 @@ from django.db import migrations
 
 
 def forwards_func(apps, schema_editor):
+    DATE = datetime.now()
     # We get the model from the versioned app registry;
     # if we directly import it, it'll be the wrong version
     Person = apps.get_model("authentication", "User")
     db_alias = schema_editor.connection.alias
-    for person, t in enumerate(Person.objects.all()):
-        person.birth_date = datetime.date(2000, 1, 1)
+    for person in Person.objects.all():
+        print(DATE)
+        data = DATE
+        print(data)
+        print(int(person.age))
+        person.birth_date = data.replace(year=data.year - int(person.age))
         person.save()
 
 

@@ -1,7 +1,9 @@
 import csv
 import json
 import os
+import datetime
 from pathlib import Path
+
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,7 +86,9 @@ def open_files_3():
 
     with open(file, encoding='utf-8') as csv_f:
         csv_reader = csv.DictReader(csv_f)
+        data = datetime.date.today()
         for rows in csv_reader:
+            data_t = data
             if rows["role"] not in response_g_t:
                 response_g_t.append(rows["role"])
                 response_g.append(
@@ -105,8 +109,10 @@ def open_files_3():
                         "first_name": rows["first_name"],
                         "last_name": rows["last_name"],
                         "username": rows["username"],
+                        "email": f'{rows["username"]}@gmail.com',
                         "password": rows["password"],
                         "age": rows["age"],
+                        "birth_date": str(data_t - datetime.timedelta(days=(365*int(rows["age"])))),
                         "location": rows["location_id"],
                             }
                     }

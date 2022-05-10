@@ -8,7 +8,7 @@ router.register('', SelectionListView)
 
 
 urlpatterns = [
-    path('', SelectionListView.as_view({'get': 'list', 'post': 'create'})),
+    path('create/', SelectionListView.as_view({'post': 'create'})),
     path('<int:pk>/', SelectionListView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
     # path('', include(router.urls)),
     ]
