@@ -66,6 +66,7 @@ class AdvViewSet(ModelViewSet):
             return [permission() for permission in self.permission_classes]
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class CatViewSet(ModelViewSet):
     queryset = Characteristics.objects.all()
     serializer_class = CatViewSerializer

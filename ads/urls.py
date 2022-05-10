@@ -8,7 +8,9 @@ router.register('', AdvViewSet)
 
 
 urlpatterns = [
+    path('create/', AdvViewSet.as_view({'post': 'create'})),
     path('', include(router.urls)),
+
     path('<int:pk>/upload_image/', AdsImageUpdateView.as_view()),
     ]
 

@@ -29,6 +29,7 @@ router.register('location', LocationViewSet)
 
 urlpatterns = [
     path('', MainView.as_view()),
+    path('cat/create/', CatViewSet.as_view({'post': 'create'})),
     path('admin/', admin.site.urls),
     path('ad/', include('ads.urls')),
     path('users/', include('authentication.urls')),
