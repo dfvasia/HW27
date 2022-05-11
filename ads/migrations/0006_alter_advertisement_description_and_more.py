@@ -23,6 +23,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='characteristics',
             name='slug',
-            field=models.SlugField(max_length=10, unique=True),
+            field=models.SlugField(max_length=100, unique=True),
         ),
     ]

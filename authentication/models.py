@@ -27,7 +27,7 @@ class LocationUser(models.Model):
 class User(AbstractUser):
     email = models.EmailField(blank=False, null=False, unique=True)
     age = models.PositiveSmallIntegerField(null=True, validators=[MinValueValidator(9)])
-    birth_date = models.DateField(null=False, blank=False, validators=[check_old_years])
+    birth_date = models.DateField(null=True, blank=True, validators=[check_old_years])
     location = models.ForeignKey(LocationUser, on_delete=models.CASCADE, null=True)
 
     def __str__(self):

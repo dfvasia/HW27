@@ -5,7 +5,7 @@ from authentication.models import User
 
 
 class Characteristics(models.Model):
-    slug = models.SlugField(max_length=10, null=False, blank=False, unique=True)
+    slug = models.SlugField(max_length=100, null=False, blank=False, unique=True)
     name = models.CharField(max_length=100, null=False, blank=False)
 
     def __str__(self):
