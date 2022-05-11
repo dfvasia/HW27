@@ -1,10 +1,18 @@
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+class BanRambler:
+    def __call__(self, value):
+        domain = value[value.index('@')+1:].lower()
+        print(domain)
+        if domain == 'rambler.ru':
+            raise serializers.ValidationError("Домен запрещен")
 
 from authentication.models import LocationUser, User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[BanRambler()])
+
     class Meta:
         model = User
         fields = '__all__'
