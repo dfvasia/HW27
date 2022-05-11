@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from authentication.models import LocationUser, User
+
 
 class BanRambler:
     def __call__(self, value):
@@ -6,8 +8,6 @@ class BanRambler:
         print(domain)
         if domain == 'rambler.ru':
             raise serializers.ValidationError("Домен запрещен")
-
-from authentication.models import LocationUser, User
 
 
 class UserSerializer(serializers.ModelSerializer):
