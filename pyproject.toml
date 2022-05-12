@@ -12,6 +12,7 @@ Pillow = "^9.1.0"
 djangorestframework = "^3.13.1"
 djangorestframework-simplejwt = "^5.1.0"
 transliterate = "^1.10.2"
+pytest-django = "^4.5.2"
 
 [tool.poetry.dev-dependencies]
 

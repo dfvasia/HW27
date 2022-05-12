@@ -21,7 +21,6 @@ class AdvViewSerializer(serializers.ModelSerializer):
         )
 
     is_published = serializers.BooleanField(validators=[NotIsPublishedValidator(True)])
-    validators = UniqueValidator(queryset=Advertisement.objects.all())
 
     class Meta:
         model = Advertisement
