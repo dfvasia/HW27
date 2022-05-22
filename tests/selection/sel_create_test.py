@@ -18,6 +18,7 @@ def test_create_ads(client, hr_token):
         content_type='application/json',
         HTTP_AUTHORIZATION="Bearer %s" % hr_token
     )
+
     expected_response = {
         "id": response.data['id'],
         "name": "test_test_test_",

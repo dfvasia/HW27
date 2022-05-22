@@ -1,6 +1,9 @@
 
 from django.conf import settings
 import pytest
+from pytest_factoryboy import register
+
+from tests.factories import AdsFactory, UserFactory
 
 pytest_plugins = "tests.fixtures"
 DEFAULT_ENGINE = 'django.db.backends.postgresql_psycopg2'
@@ -16,4 +19,8 @@ def django_db_setup():
         'HOST': 'localhost',
         'PORT': '5433',
     }
+
+
+register(AdsFactory)
+register(UserFactory)
 
