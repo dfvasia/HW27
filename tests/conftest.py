@@ -2,7 +2,9 @@
 from django.conf import settings
 import pytest
 
+pytest_plugins = "tests.fixtures"
 DEFAULT_ENGINE = 'django.db.backends.postgresql_psycopg2'
+
 
 @pytest.fixture(scope='session')
 def django_db_setup():
@@ -14,3 +16,4 @@ def django_db_setup():
         'HOST': 'localhost',
         'PORT': '5433',
     }
+
