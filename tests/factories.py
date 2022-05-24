@@ -9,9 +9,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
-    username = "Hr_test"
+    username = factory.Faker("name")
     password = "123qwe"
-    email = "hr_test@test.ru"
+    email = factory.Faker("email")
     birth_date = datetime.now()
     is_active = True
 
